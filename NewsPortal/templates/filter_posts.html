@@ -1,0 +1,39 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_tags %}
+
+{% block content %}
+<form action="" method="get">
+   {{ filter.form.as_p }}
+   <input type="submit" value="Найти" />
+</form>
+
+<table>
+   <tr>
+       <td>Заголовок</td>
+       <td>Дата публикации</td>
+       <td>Превью</td>
+       {% if perms.posts.change_post %}
+            <td>Действия</td>
+       {% endif %}
+   </tr>
+   {% for post in filter.qs %}
+   <tr>
+       <td>
+           <a href="{% url 'posts_detail' post.id %}">{{ post.title }}</a>
+       </td>
+       <td>{{ post.date|date:'d M Y' }}</td>
+       <td>{{ post.text|truncatewords:20 }}</td>
+       {% if perms.posts.change_post %}
+            <td>
+            {% if post.post_type == "News" %}
+                <a href="{% url 'news_update' post.id %}">Редактировать новость</a>
+            {% elif post.post_type == "Article" %}
+                <a href="{% url 'articles_update' post.id %}">Редактировать статью</a>
+            {% endif %}
+            </td>
+       {% endif %}
+   </tr>
+   {% endfor %}
+</table>
+{% endblock content %}
