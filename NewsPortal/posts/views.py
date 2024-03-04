@@ -3,13 +3,14 @@ from django.urls import reverse_lazy
 from django.views.generic import (
 	ListView, DetailView, CreateView, UpdateView, DeleteView
 )
+from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.db.models import Exists, OuterRef
 from .models import Post, Subscriber, Category
 from .filters import PostsFIlter
 from .forms import NewsForm, ArticleForm
-from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth.decorators import login_required
-from django.db.models import Exists, OuterRef
+from .tasks import post_created
 
 
 class PostsList(ListView):
@@ -42,6 +43,7 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
 	def form_valid(self, form):
 		news = form.save(commit=False)
 		news.post_type = Post.news
+		post_created.delay(news)
 		return super().form_valid(form)
 
 
@@ -70,6 +72,7 @@ class ArticleCreate(PermissionRequiredMixin, CreateView):
 	def form_valid(self, form):
 		article = form.save(commit=False)
 		article.post_type = Post.article
+		post_created.delay(article)
 		return super().form_valid(form)
 
 
