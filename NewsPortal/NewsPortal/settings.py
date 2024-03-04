@@ -10,10 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+from dotenv import load_dotenv,find_dotenv
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(find_dotenv())
 
 
 # Quick-start development settings - unsuitable for production
@@ -60,13 +62,13 @@ ACCOUNT_FORMS = {'signup': 'accounts.forms.CustomSignupForm'}
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'example@yandex.ru'
-EMAIL_HOST_PASSWORD = 'example_password'
+EMAIL_HOST_USER = os.getenv('SMTP_USER')
+EMAIL_HOST_PASSWORD = os.getenv('SMTP_PASSWORD')
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-SERVER_EMAIL = 'example@yandex.ru'
+SERVER_EMAIL = os.getenv('SMTP_USER')
 EMAIL_SUBJECT_PREFIX = ''
-DEFAULT_FROM_EMAIL = 'example@yandex.ru'
+DEFAULT_FROM_EMAIL = os.getenv('SMTP_USER')
 
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
 

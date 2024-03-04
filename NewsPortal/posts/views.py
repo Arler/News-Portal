@@ -43,7 +43,8 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
 	def form_valid(self, form):
 		news = form.save(commit=False)
 		news.post_type = Post.news
-		post_created.delay(news)
+		news.save()
+		post_created.delay(news.pk)
 		return super().form_valid(form)
 
 
@@ -72,7 +73,8 @@ class ArticleCreate(PermissionRequiredMixin, CreateView):
 	def form_valid(self, form):
 		article = form.save(commit=False)
 		article.post_type = Post.article
-		post_created.delay(article)
+		article.save()
+		post_created.delay(article.pk)
 		return super().form_valid(form)
 
 

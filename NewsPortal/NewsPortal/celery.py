@@ -2,7 +2,7 @@ from celery.schedules import crontab
 from celery import Celery
 import os
 
-os.environ.setdefault('DJANGO_SETINGS_MODULE', 'NewsPortal.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NewsPortal.settings')
 
 app = Celery('NewsPortal')
 app.config_from_object('django.conf:settings', namespace='CELERY')

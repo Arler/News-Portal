@@ -1,5 +1,6 @@
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.utils import timezone
 from django.conf import settings
 from celery import shared_task
 from .models import Post, Category
@@ -7,7 +8,8 @@ import datetime
 
 
 @shared_task
-def post_created(instance):
+def post_created(pk):
+    instance = Post.objects.get(pk=pk)
     if instance.post_type == Post.news:
         subject = f'Была опубликована новость {instance.title}'
     if instance.post_type == Post.article:
@@ -36,7 +38,7 @@ def post_created(instance):
 
 @shared_task
 def weekly_posts_email():
-    today = datetime.datetime.now()
+    today = timezone.now()
     last_week = today - datetime.timedelta(days=7)
     posts = Post.objects.filter(date__gte=last_week)
     categories = set(posts.values_list('categories__category_name', flat=True))
