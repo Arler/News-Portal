@@ -8,11 +8,11 @@
         <title>News Portal</title>
 
         {% load static %}
-        <!-- Core theme CSS (includes Bootstrap)-->
+        {% load cache %}
+
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     </head>
     <body>
-        <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
            <div class="container">
                <a class="navbar-brand" href="#">News Portal</a>
@@ -23,30 +23,32 @@
                    <span class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarResponsive">
-                   <ul class="navbar-nav ml-auto">
-                       <li class="nav-item active">
-                           <a class="nav-link" href="{% url 'posts_list' %}">Home</a>
-                       </li>
-                       <li>
-                           <a class="nav-link" href="{% url 'posts_search' %}">Search</a>
-                       </li>
-                       <li>
-                           <a class="nav-link" href="{% url 'subscriptions' %}">Subscriptions</a>
-                       </li>
-                       <li>
-                           <a class="nav-link" href="{% url 'account_login' %}">Log in</a>
-                       </li>
-                       <li>
-                           <a class="nav-link" href="{% url 'account_logout' %}">Log out</a>
-                       </li>
-                       <li>
-                           {% if user.username %}
-                                <span class="nav-link">Welcome, {{ user.username }}!</span>
-                           {% else %}
-                                <span class="nav-link">Welcome!</span>
-                           {% endif %}
-                       </li>
-                   </ul>
+                   {% cache 120 navbar %}
+                       <ul class="navbar-nav ml-auto">
+                           <li class="nav-item active">
+                               <a class="nav-link" href="{% url 'posts_list' %}">Home</a>
+                           </li>
+                           <li>
+                               <a class="nav-link" href="{% url 'posts_search' %}">Search</a>
+                           </li>
+                           <li>
+                               <a class="nav-link" href="{% url 'subscriptions' %}">Subscriptions</a>
+                           </li>
+                           <li>
+                               <a class="nav-link" href="{% url 'account_login' %}">Log in</a>
+                           </li>
+                           <li>
+                               <a class="nav-link" href="{% url 'account_logout' %}">Log out</a>
+                           </li>
+                           <li>
+                               {% if user.username %}
+                                    <span class="nav-link">Welcome, {{ user.username }}!</span>
+                               {% else %}
+                                    <span class="nav-link">Welcome!</span>
+                               {% endif %}
+                           </li>
+                       </ul>
+                   {% endcache %}
                </div>
            </div>
         </nav>
