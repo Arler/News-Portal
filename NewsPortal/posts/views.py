@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import (
 	ListView, DetailView, CreateView, UpdateView, DeleteView
 )
-from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Exists, OuterRef
+from django.core.cache import cache
 from .models import Post, Subscriber, Category
 from .filters import PostsFIlter
 from .forms import NewsForm, ArticleForm
@@ -25,6 +26,15 @@ class PostDetail(DetailView):
 	model = Post
 	template_name = 'post.html'
 	context_object_name = 'post'
+
+	def get_object(self, *args, **kwargs):
+		obj = cache.get(f'product-{self.kwargs["pk"]}', None)
+		if not obj:
+			obj = super().get_object(queryset=self.queryset)
+			cache.set(f'product-{self.kwargs["pk"]}', obj)
+			return obj
+
+		return obj
 
 
 def posts_search(request):

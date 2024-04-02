@@ -1,7 +1,6 @@
 {% extends 'flatpages/default.html' %}
 
 {% load custom_filters %}
-{% load cache %}
 
 {% block title %}
 Post
@@ -17,18 +16,16 @@ Post
             <td>Тип</td>
             <td>Категория</td>
         </tr>
-        {% cache 300 post %}
-            <tr>
-                <td>{{ post.author.user.username }}</td>
-                <td>{{ post.date|date:'d M Y' }}</td>
-                <td>{{ post.rating }}</td>
-                <td>{{ post.post_type }}</td>
-                <td>{% for category in post.categories.all %}
-                        {{ category.category_name }}
-                    {% endfor %}
-                </td>
-            </tr>
-        {% endcache %}
+        <tr>
+            <td>{{ post.author.user.username }}</td>
+            <td>{{ post.date|date:'d M Y' }}</td>
+            <td>{{ post.rating }}</td>
+            <td>{{ post.post_type }}</td>
+            <td>{% for category in post.categories.all %}
+                    {{ category.category_name }}
+                {% endfor %}
+            </td>
+        </tr>
     </table>
 <h3>{{ post.text|censor:"проблем" }}</h3>
 {% endblock content %}
