@@ -1,0 +1,5 @@
+Django
+celery
+django-filter
+django-allauth
+python-dotenv
