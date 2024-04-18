@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 
 DEFAULT_CHARSET = 'utf-8'
 
+ADMINS = [('Vlad', 'vlad@example.com'),]
 
 # Application definition
 
@@ -90,6 +91,7 @@ CACHES = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -141,16 +143,16 @@ LOGGING = {
         },
         # Форматирование для файлов
         'format_file_INFO': {
-            'format': '%(asctime)s %(levelname)s %(module) %(message)s'
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s',
         },
         'format_file_ERROR': {
-            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s'
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s',
         },
         'format_file_security': {
-            'format': '%(asctime)s %(levelname)s %(module)s %(message)s'
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s',
         },
         'format_mail_admins': {
-            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s'
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s',
         },
     },
     'filters': {
@@ -183,20 +185,18 @@ LOGGING = {
         # Логирование в файлы
         'file_INFO': {
             'level': 'INFO',
-            'filters': ['require_debug_false'],
+            'filters': ['require_debug_true'],
             'class': 'logging.FileHandler',
             'formatter': 'format_file_INFO',
             'filename': './log_files/general.log',
         },
         'file_ERROR': {
             'level': 'ERROR',
-            'filters': ['require_debug_false'],
             'class': 'logging.FileHandler',
             'formatter': 'format_file_ERROR',
             'filename': './log_files/errors.log',
         },
         'file_security': {
-            'filters': ['require_debug_false'],
             'class': 'logging.FileHandler',
             'formatter': 'format_file_security',
             'filename': './log_files/security.log',
@@ -284,6 +284,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
 
 
 # Static files (CSS, JavaScript, Images)
