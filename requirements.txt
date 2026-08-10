@@ -3,3 +3,4 @@ celery
 django-filter
 django-allauth
 python-dotenv
+requests
