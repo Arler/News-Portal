@@ -1,6 +1,7 @@
-Django
-celery
+Django==5
+celery[redis]
 django-filter
 django-allauth
 python-dotenv
 requests
+redis
