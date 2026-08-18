@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-v+qj06-y-5=%wed$=971!1#fv5#5c#@2g+6ouw23lv@jh&zxyy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 DEFAULT_CHARSET = 'utf-8'
 
@@ -54,7 +54,7 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = '/posts'
+LOGIN_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = True

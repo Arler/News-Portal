@@ -21,6 +21,6 @@ from posts.views import subscriptions
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('posts/', include('posts.urls')),
+    path('', include('posts.urls')),
     path('subscriptions/', subscriptions, name='subscriptions'),
 ]
