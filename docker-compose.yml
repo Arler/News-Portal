@@ -6,3 +6,22 @@ services:
     environment:
       SMTP_USER: ""
       SMTP_PASSWORD: ""
+    volumes:
+      - ./NewsPortal/db.sqlite3:/NewsPortalApp/db.sqlite3
+    depends_on:
+      - redis
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+  celery:
+    build: .
+    environment:
+      SMTP_USER: ""
+      SMTP_PASSWORD: ""
+    command: celery -A NewsPortal worker -l info
+    volumes:
+      - ./NewsPortal/db.sqlite3:/NewsPortalApp/db.sqlite3
+    depends_on:
+      - redis
+      - app
