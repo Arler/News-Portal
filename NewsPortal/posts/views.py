@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Exists, OuterRef
 from django.core.cache import cache
-from .models import Post, Subscriber, Category
+from .models import Post, Subscriber, Category, Author
 from .filters import PostsFIlter
 from .forms import NewsForm, ArticleForm
 from .tasks import post_created
@@ -53,6 +53,7 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
 	def form_valid(self, form):
 		news = form.save(commit=False)
 		news.post_type = Post.news
+		news.author = Author.objects.get(user=self.request.user)
 		news.save()
 		post_created.delay(news.pk)
 		return super().form_valid(form)
@@ -83,6 +84,7 @@ class ArticleCreate(PermissionRequiredMixin, CreateView):
 	def form_valid(self, form):
 		article = form.save(commit=False)
 		article.post_type = Post.article
+		article.author = Author.objects.get(user=self.request.user)
 		article.save()
 		post_created.delay(article.pk)
 		return super().form_valid(form)
