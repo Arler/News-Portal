@@ -1,11 +1,9 @@
 from django.contrib import admin
-from .models import Post, Category, PostCategory
+from .models import Post, Category, PostCategory, Author
 
 
 def nullfy_rating(modeladmin, request, queryset):
-	# queryset - набор элементов выделенный галочками
 	queryset.update(rating=0)
-
 
 nullfy_rating.short_description = 'Обнулить рейтинг'
 
@@ -23,3 +21,4 @@ class PostAdmin(admin.ModelAdmin):
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category)
 admin.site.register(PostCategory)
+admin.site.register(Author)
