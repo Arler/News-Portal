@@ -7,7 +7,7 @@ Post
 {% endblock title %}
 
 {% block content %}
-<h1>{{ post.title }}</h1>
+    <h1>{{ post.title }}</h1>
     <table>
         <tr>
             <td>Автор</td>
@@ -28,4 +28,12 @@ Post
         </tr>
     </table>
 <h3>{{ post.text|censor:"проблем" }}</h3>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="like">Лайк</button>
+    </form>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="dislike">Дизлайк</button>
+    </form>
 {% endblock content %}

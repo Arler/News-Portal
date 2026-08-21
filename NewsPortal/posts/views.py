@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import (
@@ -35,6 +35,16 @@ class PostDetail(DetailView):
 			return obj
 
 		return obj
+
+	def post(self, *args, **kwargs):
+		if "like" in self.request.POST:
+			post = self.get_object()
+			post.like()
+		elif "dislike" in self.request.POST:
+			post = self.get_object()
+			post.dislike()
+
+		return redirect(f"/{self.get_object().id}")
 
 
 def posts_search(request):
