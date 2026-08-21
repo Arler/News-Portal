@@ -27,7 +27,7 @@ Post
             </td>
         </tr>
     </table>
-<h3>{{ post.text|censor:"проблем" }}</h3>
+    <h3>{{ post.text}}</h3>
     <form method="post">
         {% csrf_token %}
         <button type="submit" name="like">Лайк</button>
